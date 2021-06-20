@@ -4,7 +4,7 @@
 
 ## Description
 
-ash is a limited implementation of a Unix shell. It is built with C. It is not meant to replace current shells nor is an alternative to current shells. It is built for education purposes. Therefore, it has limitations such as:
+ash is a limited implementation of a Unix shell. It is built with C. It is not meant to replace current shells nor is an alternative to current shells. It is built for educational purposes. Therefore, it has limitations such as:
 
 * No piping
 * No exceeding a single line
