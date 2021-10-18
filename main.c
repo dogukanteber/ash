@@ -10,6 +10,11 @@
 #define ASH_TOKEN_BUFFER_SIZE 64
 #define ASH_TOKEN_DELIMETER " \t\r\n\a"
 
+#define CYN  	"\x1B[36m"
+#define RESET   "\x1B[0m"
+#define BOLD	"\033[1m"
+#define UNBOLD  "\033[22m"
+
 
 int ash_cd(char**);
 int ash_help(char**);
@@ -69,6 +74,12 @@ int ash_exit(char** args) {
 	return 0;
 }
 
+void ash_prompt() {
+	char* user_name = getlogin();
+
+	printf(CYN BOLD "%s" RESET UNBOLD, user_name);
+	printf("$ ");
+}
 
 void ash_loop(void) {
 	char* line;
@@ -76,7 +87,7 @@ void ash_loop(void) {
 	int status;
 
 	do {
-		printf("\n$ ");
+		ash_prompt();
 		line = ash_readline();
 		args = ash_split_line(line);
 		status = ash_execute(args);
