@@ -205,6 +205,7 @@ int ash_execute(char** args) {
 
 int main(int argc, char** argv) {
 
+	system("clear");
 	ash_loop();
 
 	return EXIT_SUCCESS;
