@@ -4,6 +4,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <limits.h>
+#include <readline/readline.h>
 
 #define ASH_READLINE_BUFFER_SIZE 1024
 
@@ -11,6 +12,7 @@
 #define ASH_TOKEN_DELIMETER " \t\r\n\a"
 
 #define CYN  	"\x1B[36m"
+#define GRN     "\x1B[32m"
 #define RESET   "\x1B[0m"
 #define BOLD	"\033[1m"
 #define UNBOLD  "\033[22m"
@@ -77,8 +79,12 @@ int ash_exit(char** args) {
 void ash_prompt() {
 	char* user_name = getlogin();
 
-	printf(CYN BOLD "%s" RESET UNBOLD, user_name);
-	printf("$ ");
+	size_t size = 100;
+	char working_dir[size];
+	char* current_dir = getcwd(working_dir, size);
+
+	printf(CYN BOLD "%s@" RESET UNBOLD, user_name);
+	printf(GRN BOLD "%s" RESET UNBOLD, current_dir);
 }
 
 void ash_loop(void) {
@@ -88,7 +94,7 @@ void ash_loop(void) {
 
 	do {
 		ash_prompt();
-		line = ash_readline();
+		line = readline(BOLD"$ "UNBOLD);
 		args = ash_split_line(line);
 		status = ash_execute(args);
 	
@@ -97,41 +103,6 @@ void ash_loop(void) {
 
 	} while ( status );
 }
-
-char* ash_readline() {
-	int buffer_size = ASH_READLINE_BUFFER_SIZE;
-	int position = 0;
-	char* buffer = malloc( sizeof(char) * buffer_size );
-	int c;
-
-	if ( !buffer ) {
-		fprintf(stderr, "ash: allocation error\n");
-		exit(EXIT_FAILURE);
-	}
-
-	while ( 1 ) {
-		c = getchar();
-
-		if ( c == EOF || c == '\n' ) {
-			buffer[position] = '\0';
-			return buffer;
-		} 
-		else {
-			buffer[position] = c;
-		}
-		position++;
-
-		if ( position >= buffer_size ) {
-			buffer_size += ASH_READLINE_BUFFER_SIZE;
-			buffer = realloc( buffer, buffer_size );
-			if ( !buffer ) {
-				fprintf(stderr, "ash: allocation error\n");
-				exit(EXIT_FAILURE);
-			}
-		}
-	}
-}
-
 
 char** ash_split_line(char* line) {
 	int buffer_size = ASH_TOKEN_BUFFER_SIZE;
