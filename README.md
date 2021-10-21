@@ -4,14 +4,20 @@
 
 ## Description
 
-ash is a limited implementation of a Unix shell. It is built with C. It is not meant to replace current shells nor is an alternative to current shells. It is built for educational purposes. Therefore, it has limitations such as:
+ash is a limited implementation of a Unix shell. It is built with C. It is not meant to replace current shells nor is an alternative to current shells. It is built for educational purposes.
 
-* No piping
-* No exceeding a single line
-* No escaping whitespace
-* Built-ins are `cd`, `help` and `exit`
+## Supported Features
 
-Other than that, ash can run basic commands like `pwd`, `ls`, `whoami` etc.
+  * Line editting
+  * Current logged in user information on each line
+  * Current working directory information on each line
+
+## Future Features
+  
+  * Piping
+  * Input redirection
+  * TAB completion
+  * History feature that lets you navigate previous commands
 
 ## Installation
 
@@ -48,5 +54,5 @@ I would be appreciated if you improve the project by adding pipes and stuff. Or,
 
 ## Credit
 
-The project is built with the help of [Stephan Brennan](https://github.com/brenns10)'s blog about Linux shells. You can check out the blog from [here](https://brennan.io/2015/01/16/write-a-shell-in-c/). Credit goes to him for creating such a great content.
+I have started to build this project with the help of [Stephan Brennan](https://github.com/brenns10)'s blog about Linux shells. You can check out the blog from [here](https://brennan.io/2015/01/16/write-a-shell-in-c/). Credit goes to him for creating such a great content.
 
