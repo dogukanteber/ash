@@ -78,13 +78,27 @@ int ash_exit(char** args) {
 
 void ash_prompt() {
 	char* user_name = getlogin();
-
+	
+	printf(CYN BOLD "%s@" RESET UNBOLD, user_name);
+	
 	size_t size = 100;
 	char working_dir[size];
 	char* current_dir = getcwd(working_dir, size);
+	char* home_path = getenv("HOME");
 
-	printf(CYN BOLD "%s@" RESET UNBOLD, user_name);
-	printf(GRN BOLD "%s" RESET UNBOLD, current_dir);
+	int cmp = strcmp(home_path, current_dir);
+	if ( cmp < 0 ) {
+		char short_path[100];
+		strncpy(short_path, &current_dir[strlen(home_path)], strlen(current_dir));
+
+		printf(GRN BOLD "~%s" RESET UNBOLD, short_path);
+	}
+	else if ( cmp == 0 ) {
+		printf(GRN BOLD "~/" RESET UNBOLD);
+	}
+	else {
+		printf(GRN BOLD "%s" RESET UNBOLD, current_dir);
+	}
 }
 
 void ash_loop(void) {
