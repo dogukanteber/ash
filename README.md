@@ -10,13 +10,13 @@ ash is a limited implementation of a Unix shell. It is built with C. It is not m
 
   * Line editting
   * Current logged in user information on each line
+  * TAB completion
   * Current working directory information on each line
 
 ## Future Features
   
   * Piping
   * Input redirection
-  * TAB completion
   * History feature that lets you navigate previous commands
 
 ## Installation
