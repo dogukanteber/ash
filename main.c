@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 
 #define ASH_READLINE_BUFFER_SIZE 1024
 
@@ -109,6 +110,7 @@ void ash_loop(void) {
 	do {
 		ash_prompt();
 		line = readline(BOLD"$ "UNBOLD);
+		add_history(line);
 		args = ash_split_line(line);
 		status = ash_execute(args);
 	
