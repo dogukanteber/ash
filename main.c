@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <limits.h>
@@ -62,13 +63,7 @@ int ash_cd(char** args) {
 
 int ash_help(char** args) {
 	printf("Welcome to ash\n");
-	printf("Type program names and arguments, and hit enter.\n");
-	printf("The following are built in:\n");
-
-	for ( int i=0; i<ash_size_builtins(); ++i ) {
-		printf("%s\n", builtin_str[i]);
-	}
-
+	printf("Use it like you are using any other shell.\n");
 	printf("Use the man command for information on other programs.\n");
 	return 1;
 }
@@ -127,10 +122,7 @@ char** ash_split_line(char* line) {
 	char** tokens = malloc( sizeof(char *) * buffer_size );
 	char* token;
 
-	if ( !tokens ) {
-		fprintf(stderr, "ash: allocation error\n");
-		exit(EXIT_FAILURE);
-	}
+	assert(tokens != NULL);
 
 	token = strtok(line, ASH_TOKEN_DELIMETER);
 	while ( token != NULL ) {
@@ -141,10 +133,7 @@ char** ash_split_line(char* line) {
 			buffer_size += ASH_TOKEN_BUFFER_SIZE;
 			tokens = realloc( tokens, buffer_size * sizeof(char *) );
 
-			if ( !tokens ) {
-				fprintf(stderr, "ash: allocation error\n");
-				exit(EXIT_FAILURE);
-			}
+			assert(tokens != NULL);
 		}
 		token = strtok(NULL, ASH_TOKEN_DELIMETER);
 	}
@@ -160,7 +149,7 @@ int ash_launch(char** args) {
 	pid = fork();
 	if ( pid == 0 ) {
 		if ( execvp(args[0], args) == -1 ) {
-			perror("ash");
+			fprintf(stdout, "%s : command not found\n", args[0]);
 		}
 		exit(EXIT_FAILURE);
 	}
